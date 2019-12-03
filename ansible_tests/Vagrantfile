@@ -1,0 +1,21 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.ssh.private_key_path = ['~/.vagrant.d/insecure_private_key', '~/.ssh/id_rsa']
+  config.ssh.insert_key = false
+  config.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/authorized_keys"
+  vgt_boxes = [['debian','stretch64',2], ['debian','buster64',3], ['ubuntu','xenial64',4], ['ubuntu','bionic64',5]]
+
+vgt_boxes.each { |(a, b, c)|
+    config.vm.define "#{b}" do |ans|
+    ans.vm.box = "#{a}/#{b}"
+    ans.vm.hostname = "#{b}"
+    ans.vm.network "private_network", ip: "192.168.62.#{c}"
+    ans.vm.provider "virtualbox" do |v|
+      v.customize ["modifyvm", :id, "--cpus", 1]
+      v.customize ["modifyvm", :id, "--memory", 1024]
+      v.name = "#{b}"
+    end
+  end }
+end
