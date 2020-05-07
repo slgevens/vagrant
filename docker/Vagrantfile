@@ -2,8 +2,8 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  vagrant_install  = "https://gist.githubusercontent.com/slgevens/e12a79b53d2a5a736cce62da3a9e23a9/raw/47ce8468549e2469233ee246eefffad92f65e6b7/vagrant_install.sh"
-  docker_install   = "https://gist.githubusercontent.com/slgevens/49c885aefa274bc2f5e090ef2e27fb1a/raw/a73b68667856936335ded03251988068063c935f/vagrant_docker.sh"
+  vagrant_install  = "https://gist.githubusercontent.com/slgevens/e12a79b53d2a5a736cce62da3a9e23a9/raw/33f8dbf86f300de6b115c168c529b9f3a4fe5424/vagrant_install.sh"
+  docker_install   = "https://gist.githubusercontent.com/slgevens/49c885aefa274bc2f5e090ef2e27fb1a/raw/4b5afe9bf3cc2b474322ada86c63dca3784e2f06/vagrant_docker.sh"
 
   config.vm.box = "debian/stretch64"
   config.vm.provider "virtualbox" do |v|
@@ -11,11 +11,10 @@ Vagrant.configure("2") do |config|
    v.customize ["modifyvm", :id, "--memory", 1024]
   end
   config.vm.provision "shell", path: vagrant_install
-
   config.ssh.insert_key = false
   config.ssh.private_key_path = ['~/.vagrant.d/insecure_private_key', '~/.ssh/id_rsa']
   config.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/authorized_keys"
-  
+
   config.vm.define "dock1" do |dock1|
   dock1.vm.network "private_network", ip: "192.168.62.2"
   dock1.vm.network "private_network", ip: "192.168.23.2", virtualbox__intnet: "backend"
