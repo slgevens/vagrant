@@ -5,7 +5,7 @@ Vagrant.configure("2") do |config|
   config.ssh.private_key_path = ['~/.vagrant.d/insecure_private_key', '~/.ssh/id_rsa']
   config.ssh.insert_key = false
   config.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/authorized_keys"
-  vgt_boxes = [['debian','stretch64',2], ['debian','buster64',3], ['ubuntu','xenial64',4], ['ubuntu','bionic64',5]]
+  vgt_boxes = [['debian','stretch64',2], ['debian','buster64',3], ['ubuntu','xenial64',4], ['ubuntu','bionic64',5], ['centos','7',6], ['centos','8',7]]
 
 vgt_boxes.each { |(a, b, c)|
     config.vm.define "#{b}" do |ans|
